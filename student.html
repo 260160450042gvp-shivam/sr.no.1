@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --accent: #38bdf8;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --pass: #16a34a;
+            --fail: #dc2626;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe, #93c5fd);
+            background-size: 400% 400%;
+            animation: bgShift 14s ease infinite;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 30px 15px;
+            perspective: 1200px;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .result {
+            width: 100%;
+            max-width: 440px;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            padding: 36px 32px;
+            border-radius: 20px;
+            transform-style: preserve-3d;
+            box-shadow:
+                0 10px 25px rgba(30, 64, 175, 0.15),
+                0 25px 45px rgba(30, 64, 175, 0.12);
+            transform: rotateX(4deg);
+            animation: floatIn 0.9s ease forwards;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .result:hover {
+            transform: rotateX(0deg) translateY(-6px);
+            box-shadow:
+                0 18px 30px rgba(30, 64, 175, 0.18),
+                0 30px 50px rgba(30, 64, 175, 0.15);
+        }
+
+        @keyframes floatIn {
+            0% {
+                opacity: 0;
+                transform: rotateX(35deg) translateY(60px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: rotateX(4deg) translateY(0) scale(1);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .header .icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 10px auto;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            color: white;
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.35);
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 22px;
+            color: var(--text-dark);
+            letter-spacing: 0.3px;
+        }
+
+        .header p {
+            margin: 6px 0 0 0;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+            letter-spacing: 0.2px;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            background: #f8fafc;
+            color: var(--text-dark);
+            transform-style: preserve-3d;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #ffffff;
+            transform: translateZ(8px);
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.18);
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 10px;
+            background: linear-gradient(145deg, var(--primary), var(--primary-dark));
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            color: white;
+            cursor: pointer;
+            box-shadow:
+                0 6px 0 #1e40af,
+                0 10px 18px rgba(37, 99, 235, 0.3);
+            transform: translateY(0) translateZ(0);
+            transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+        }
+
+        button:hover {
+            filter: brightness(1.08);
+            transform: translateY(-2px) translateZ(5px);
+            box-shadow:
+                0 8px 0 #1e40af,
+                0 16px 22px rgba(37, 99, 235, 0.35);
+        }
+
+        button:active {
+            transform: translateY(4px) translateZ(0);
+            box-shadow:
+                0 2px 0 #1e40af,
+                0 4px 8px rgba(37, 99, 235, 0.25);
+        }
+
+        #output {
+            margin-top: 22px;
+            padding: 0 20px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            text-align: left;
+            border-left: 4px solid var(--primary);
+            transform: rotateX(-90deg);
+            transform-origin: top center;
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+        #output.show {
+            animation: flipDown 0.6s ease forwards;
+        }
+
+        @keyframes flipDown {
+            0% {
+                transform: rotateX(-90deg);
+                opacity: 0;
+                height: 0;
+                padding: 0 20px;
+            }
+            100% {
+                transform: rotateX(0deg);
+                opacity: 1;
+                height: auto;
+                padding: 18px 20px;
+            }
+        }
+
+        #output h3 {
+            margin: 0 0 12px 0;
+            font-size: 15px;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 14px;
+            color: var(--text-dark);
+            border-bottom: 1px dashed #cbd5e1;
+        }
+
+        .row:last-of-type {
+            border-bottom: none;
+        }
+
+        .row span:first-child {
+            color: var(--text-muted);
+        }
+
+        .row span:last-child {
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+
+        .badge.pass {
+            background: #dcfce7;
+            color: var(--pass);
+        }
+
+        .badge.fail {
+            background: #fee2e2;
+            color: var(--fail);
+        }
+
+        @media (max-width: 480px) {
+            .result {
+                padding: 26px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="result" class="result">
+        <div class="header">
+            <div class="icon">🎓</div>
+            <h2>Student Result Portal</h2>
+            <p>Enter marks below to calculate the result</p>
+        </div>
+
+        <div class="field">
+            <label>Student Name</label>
+            <input type="text" name="" id="name" placeholder="Enter full name">
+        </div>
+
+        <div class="field">
+            <label>Java Marks</label>
+            <input type="number" name="" id="java" placeholder="Out of 100">
+        </div>
+
+        <div class="field">
+            <label>DBMS Marks</label>
+            <input type="number" name="" id="dbms" placeholder="Out of 100">
+        </div>
+
+        <div class="field">
+            <label>DSA Marks</label>
+            <input type="number" name="" id="dsa" placeholder="Out of 100">
+        </div>
+
+        <button type="button" onclick="calculator()">Calculate Result</button>
+
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function calculator() {
+            var name = document.getElementById("name").value;
+            var java = Number(document.getElementById("java").value);
+            var dbms = Number(document.getElementById("dbms").value);
+            var dsa = Number(document.getElementById("dsa").value);
+            var Total = java + dbms + dsa;
+            var Percentage = Total / 3;
+            var Result;
+
+            if (java >= 35 && dbms >= 35 && dsa >= 35) {
+                Result = "Pass";s
+            } else {
+                Result = "Fail";
+            }
+
+            var badgeClass = Result === "Pass" ? "pass" : "fail";
+
+            var outputDiv = document.getElementById("output");
+
+            outputDiv.innerHTML =
+                "<h3>Result Summary</h3>" +
+                "<div class='row'><span>Student Name</span><span>" + name + "</span></div>" +
+                "<div class='row'><span>Java</span><span>" + java + "</span></div>" +
+                "<div class='row'><span>DBMS</span><span>" + dbms + "</span></div>" +
+                "<div class='row'><span>DSA</span><span>" + dsa + "</span></div>" +
+                "<div class='row'><span>Total</span><span>" + Total + " / 300</span></div>" +
+                "<div class='row'><span>Percentage</span><span>" + Percentage.toFixed() + "%</span></div>" +
+                "<div class='row'><span>Result</span><span class='badge " + badgeClass + "'>" + Result + "</span></div>";
+
+            outputDiv.classList.remove("show");
+            void outputDiv.offsetWidth;
+            outputDiv.classList.add("show");
+        }
+    </script>
+</body>
+
+</html>
