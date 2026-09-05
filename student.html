@@ -11,54 +11,181 @@
             padding: 0;
             margin: 0;
         }
-        body{
-            font-family: arial;
-            height: 95vh;
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
+            background: linear-gradient(135deg, #1B2A4A 0%, #0F1830 100%);
+            padding: 30px 16px;
         }
-        .header p{
-            padding-top: 15px;
-        }
-        .result{
-            background-color: gray;
-            width: 50%;
-            padding: 30px;
-            border-radius: 30px;
+
+        .result {
+            background: #ffffff;
+            width: 480px;
+            max-width: 100%;
+            padding: 36px 32px 32px;
+            border-radius: 18px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            gap: 20px;
+            gap: 18px;
+            box-shadow: 0 20px 45px rgba(15, 24, 48, 0.35);
         }
-        .icon{
-            font-size: 30px;
+
+        .header {
+            text-align: center;
+        }
+
+        .header .icon {
+            font-size: 34px;
             display: flex;
-            flex-direction: row;
             justify-content: center;
+            margin-bottom: 6px;
         }
-        label{
-            padding: 8px;
-            
+
+        .header h2 {
+            color: #1B2A4A;
+            font-size: 1.4rem;
+            font-weight: 700;
         }
-        input{
-            width: 30vh;
-            height: 4.5vh;
-            padding: 5px;
-            margin-top: 5px;
+
+        .header p {
+            padding-top: 8px;
+            color: #6b6f7d;
+            font-size: 0.92rem;
+        }
+
+        .field {
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            padding-bottom: 6px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #1B2A4A;
+        }
+
+        input {
+            width: 100%;
+            height: 44px;
+            padding: 0 16px;
+            border: 1px solid #d9dce3;
             border-radius: 25px;
             outline: none;
+            font-size: 0.95rem;
+            color: #232323;
+            background: #f7f8fa;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
-        button{
-            height: 4.5vh;
-            width: 25vh;
-            border-radius: 50px 0;
 
+        input::placeholder {
+            color: #9aa0ac;
         }
-        .output, h3{
-            padding-bottom: 15px;
+
+        input:focus {
+            border-color: #C1622D;
+            box-shadow: 0 0 0 3px rgba(193, 98, 45, 0.15);
+            background: #fff;
+        }
+
+        button {
+            height: 46px;
+            width: 100%;
+            border: none;
+            border-radius: 25px;
+            background: #1B2A4A;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+
+        button:hover {
+            background: #C1622D;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button:focus-visible {
+            outline: 2px solid #C1622D;
+            outline-offset: 3px;
+        }
+
+        #output {
+            width: 100%;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.35s ease, max-height 0.35s ease;
+        }
+
+        #output.show {
+            opacity: 1;
+            max-height: 400px;
+        }
+
+        #output h3 {
+            color: #1B2A4A;
+            font-size: 1.05rem;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e6e8ee;
+            margin-bottom: 10px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 0.92rem;
+            color: #3d3d38;
+            border-bottom: 1px dashed #e6e8ee;
+        }
+
+        .row:last-child {
+            border-bottom: none;
+        }
+
+        .row span:first-child {
+            color: #6b6f7d;
+        }
+
+        .row span:last-child {
+            font-weight: 600;
+            color: #1B2A4A;
+        }
+
+        .badge {
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .badge.pass {
+            background: #2E8B57;
+        }
+
+        .badge.fail {
+            background: #C1392B;
+        }
+
+        @media (max-width: 480px) {
+            .result {
+                padding: 28px 22px 26px;
+                border-radius: 14px;
+            }
         }
     </style>
 </head>
@@ -72,23 +199,23 @@
         </div>
 
         <div class="field">
-            <label>Student Name</label><br>
-            <input type="text" name="" id="name" placeholder="Enter full name">
+            <label for="name">Student Name</label>
+            <input type="text" id="name" placeholder="Enter full name">
         </div>
 
         <div class="field">
-            <label>Java Marks</label><br>
-            <input type="number" name="" id="java" placeholder="Out of 100">
+            <label for="java">Java Marks</label>
+            <input type="number" id="java" placeholder="Out of 100">
         </div>
 
         <div class="field">
-            <label>DBMS Marks</label><br>
-            <input type="number" name="" id="dbms" placeholder="Out of 100">
+            <label for="dbms">DBMS Marks</label>
+            <input type="number" id="dbms" placeholder="Out of 100">
         </div>
 
         <div class="field">
-            <label>DSA Marks</label><br>
-            <input type="number" name="" id="dsa" placeholder="Out of 100">
+            <label for="dsa">DSA Marks</label>
+            <input type="number" id="dsa" placeholder="Out of 100">
         </div>
 
         <button type="button" onclick="calculator()">Calculate Result</button>
@@ -118,13 +245,13 @@
 
             outputDiv.innerHTML =
                 "<h3>Result Summary</h3>" +
-                "<div class='row'><span>Student Name : </span><span>" + name + "</span></div>" +
-                "<div class='row'><span>Java : </span><span>" + java + "</span></div>" +
-                "<div class='row'><span>DBMS : </span><span>" + dbms + "</span></div>" +
-                "<div class='row'><span>DSA : </span><span>" + dsa + "</span></div>" +
-                "<div class='row'><span>Total : </span><span>" + Total + " / 300</span></div>" +
-                "<div class='row'><span>Percentage : </span><span>" + Percentage.toFixed() + "%</span></div>" +
-                "<div class='row'><span>Result : </span><span class='badge " + badgeClass + "'>" + Result + "</span></div>";
+                "<div class='row'><span>Student Name</span><span>" + name + "</span></div>" +
+                "<div class='row'><span>Java</span><span>" + java + "</span></div>" +
+                "<div class='row'><span>DBMS</span><span>" + dbms + "</span></div>" +
+                "<div class='row'><span>DSA</span><span>" + dsa + "</span></div>" +
+                "<div class='row'><span>Total</span><span>" + Total + " / 300</span></div>" +
+                "<div class='row'><span>Percentage</span><span>" + Percentage.toFixed() + "%</span></div>" +
+                "<div class='row'><span>Result</span><span class='badge " + badgeClass + "'>" + Result + "</span></div>";
 
             outputDiv.classList.remove("show");
             void outputDiv.offsetWidth;
